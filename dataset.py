@@ -49,14 +49,12 @@ class VOCDataset(Dataset):
 
         # # label
         label_path = os.path.join(self.label__dir, self.csv.iloc[idx, 1])
-
         boxes = []
 
         with open(label_path) as f:
             for l in f.readlines():
                 label = []
                 for x in l.replace('\n', "").split():
-                    
                     # to check if its class label or bounding box coordinates
                     # if x is float then its a bounding box coordinates else its class label
                     if float(x) != int(float(x)):
@@ -65,8 +63,6 @@ class VOCDataset(Dataset):
                         x = int(x)
                     
                     label.append(x)
-            
-
                 boxes.append(label)
         
 
@@ -85,17 +81,12 @@ class VOCDataset(Dataset):
 
             a,b = int(self.split_size * y), int(self.split_size * x)
             x_cell, y_cell = (self.split_size * x - b), (self.split_size * y - a)
-
             w_cell, h_cell = (w*self.split_size,  h*self.split_size)
 
             if label_mat[a,b, 20] == 0: # if no object found already
-
                 label_mat[a,b,20] == 1
-
                 box_coord = [x_cell, y_cell, w_cell, h_cell]
-
                 label_mat[a,b, 21:25] = box_coord
-
                 label_mat[a,b, cls_label] = 1
             
         
